@@ -53,7 +53,12 @@ start:
     // whose low byte is $47, the same as the KERNAL default ($fe47), so one
     // store switches the vector atomically: a RESTORE press between two
     // separate stores would jump to a half-written address.
-    lda #>nmi_ignore
+    lda NMI_VECTOR              // a freezer cartridge may have moved the
+    cmp #<nmi_ignore            // vector: then fix the low byte too and
+    beq !+                      // accept the short two-store window
+    lda #<nmi_ignore
+    sta NMI_VECTOR
+!:  lda #>nmi_ignore
     sta NMI_VECTOR + 1
 
     lda #$ff                    // keyboard: port A drives rows,
