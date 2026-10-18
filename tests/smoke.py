@@ -7,7 +7,7 @@
 Every check that needs a tool is skipped, not failed, when `c64.py doctor`
 cannot find that tool.
 """
-import os, re, subprocess, sys, tempfile
+import json, os, re, subprocess, sys, tempfile
 
 KIT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 C64 = os.path.join(KIT, "skills", "c64-toolchain", "scripts", "c64.py")
@@ -45,6 +45,14 @@ def test_metadata():
         if not m:
             continue
         fields = dict(re.findall(r"^(\w[\w-]*):\s*(.*)$", m.group(1), re.M))
+        raw_desc = fields.get("description", "")
+        # A plain (unquoted) YAML scalar ends at " #" (a comment) and may not
+        # contain ": ". Agents would silently see a truncated description.
+        quoted = raw_desc.startswith('"') and raw_desc.endswith('"')
+        check(f"{name}: description is YAML-safe",
+              quoted or (" #" not in raw_desc and ": " not in raw_desc), raw_desc[:60])
+        if quoted:
+            fields["description"] = json.loads(raw_desc)
         check(f"{name}: name matches directory", fields.get("name") == name, fields.get("name", ""))
         check(f"{name}: name format", re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", name or "") is not None
               and len(name) <= 64)

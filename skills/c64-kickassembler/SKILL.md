@@ -1,6 +1,6 @@
 ---
 name: c64-kickassembler
-description: Write, read and fix Commodore 64 6502 assembly in KickAssembler (v5.x) syntax - directives (.byte, .fill, .label, .const, .macro, .pseudopc, .segment, .import binary, #import), the script language, BasicUpstart2, PSID/Koala import, illegal opcodes, and KickAssembler's error messages. Use whenever a .asm file is KickAssembler source (// comments, .label, BasicUpstart2, #import), when a KickAssembler build fails, or when converting 64tass/ACME/ca65 source to KickAssembler. Trigger on "KickAss", "Kick Assembler", "jump distance is too far", "Unknown symbol", ".fill", ".macro".
+description: "Write, read and fix Commodore 64 6502 assembly in KickAssembler (v5.x) syntax - directives (.byte, .fill, .label, .const, .macro, .pseudopc, .segment, .import binary, #import), the script language, BasicUpstart2, PSID/Koala import, illegal opcodes, and KickAssembler's error messages. Use whenever a .asm file is KickAssembler source (// comments, .label, BasicUpstart2, #import), when a KickAssembler build fails, or when converting 64tass/ACME/ca65 source to KickAssembler. Trigger on \"KickAss\", \"Kick Assembler\", \"jump distance is too far\", \"Unknown symbol\", \".fill\", \".macro\"."
 ---
 
 # KickAssembler

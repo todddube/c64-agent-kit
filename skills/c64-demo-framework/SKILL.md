@@ -1,6 +1,6 @@
 ---
 name: c64-demo-framework
-description: Start or restructure a Commodore 64 demo, intro or game that takes over the machine - a tested KickAssembler skeleton (sei, CIA/NMI masking, RESTORE-proof NMI vector, NTSC/PAL detection, frame loop, RUN/STOP exit through the KERNAL reset vector), plus how to keep PAL SID music at the right tempo on NTSC, open the top/bottom border, blank the screen for reveals, and lay out memory around a non-relocatable PSID tune. Use when scaffolding a new C64 project, adding music or a frame loop, porting a PAL demo to NTSC, or when a demo crashes on exit, ignores RUN/STOP, or plays music too fast.
+description: "Start or restructure a Commodore 64 demo, intro or game that takes over the machine - a tested KickAssembler skeleton (sei, CIA/NMI masking, RESTORE-proof NMI vector, NTSC/PAL detection, frame loop, RUN/STOP exit through the KERNAL reset vector), plus how to keep PAL SID music at the right tempo on NTSC, open the top/bottom border, blank the screen for reveals, and lay out memory around a non-relocatable PSID tune. Use when scaffolding a new C64 project, adding music or a frame loop, porting a PAL demo to NTSC, or when a demo crashes on exit, ignores RUN/STOP, or plays music too fast."
 ---
 
 # C64 demo framework

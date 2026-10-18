@@ -1,6 +1,6 @@
 ---
 name: c64-vice-debugging
-description: Debug and profile Commodore 64 programs in the VICE emulator's machine-code monitor - breakpoints and watchpoints with conditions on raster line (RL) and cycle (CY), labels from KickAssembler (-vicesymbols / ll), CPU history, the stopwatch, the built-in profiler (prof), I/O register dumps, memory/sprite views, keyboard injection, and scripted non-interactive runs. Use when a C64 program crashes, hangs, shows garbage, or misses its frame budget and you need to see what the CPU and VIC are actually doing, or to measure how many cycles or raster lines a routine or IRQ takes.
+description: "Debug and profile Commodore 64 programs in the VICE emulator's machine-code monitor - breakpoints and watchpoints with conditions on raster line (RL) and cycle (CY), labels from KickAssembler (-vicesymbols / ll), CPU history, the stopwatch, the built-in profiler (prof), I/O register dumps, memory/sprite views, keyboard injection, and scripted non-interactive runs. Use when a C64 program crashes, hangs, shows garbage, or misses its frame budget and you need to see what the CPU and VIC are actually doing, or to measure how many cycles or raster lines a routine or IRQ takes."
 ---
 
 # Debugging C64 programs in VICE

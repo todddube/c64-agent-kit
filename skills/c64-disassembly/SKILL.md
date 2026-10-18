@@ -1,6 +1,6 @@
 ---
 name: c64-disassembly
-description: Disassemble and reverse-engineer Commodore 64 binaries (.prg, .d64, .crt, .t64, VICE snapshots) into rebuildable KickAssembler source, using Regenerator 2000 (headless export, label import, MCP server, live VICE link) and the VICE monitor. Use when the user has a C64 program without source and wants to understand, annotate, patch or rebuild it, when tracing what an existing demo/game does, or when disassembler output in 64tass/ACME/ca65 syntax needs to become KickAssembler.
+description: "Disassemble and reverse-engineer Commodore 64 binaries (.prg, .d64, .crt, .t64, VICE snapshots) into rebuildable KickAssembler source, using Regenerator 2000 (headless export, label import, MCP server, live VICE link) and the VICE monitor. Use when the user has a C64 program without source and wants to understand, annotate, patch or rebuild it, when tracing what an existing demo/game does, or when disassembler output in 64tass/ACME/ca65 syntax needs to become KickAssembler."
 ---
 
 # C64 disassembly and reverse engineering

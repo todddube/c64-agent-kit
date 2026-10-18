@@ -1,6 +1,6 @@
 ---
 name: c64-hardware
-description: Register-level reference for the Commodore 64 - memory map and $01 bank switching, zero page ownership, VIC-II ($D000-$D02E, $D018 screen/charset mapping, VIC banks via $DD00, sprites, display modes, raster and badline timing on NTSC and PAL), SID ($D400) voices, envelopes and filter, CIA 1/2 timers, interrupts, NMI and the keyboard matrix, plus 6502/6510 addressing modes, cycle counts and NMOS pitfalls. Use WHENEVER C64 code touches a hardware address, when graphics come out as garbage, the screen is blank, sprites are missing, the SID is silent, an IRQ locks up, or you need a cycle count or a register's bits. Read the reference instead of recalling addresses from memory.
+description: "Register-level reference for the Commodore 64 - memory map and $01 bank switching, zero page ownership, VIC-II ($D000-$D02E, $D018 screen/charset mapping, VIC banks via $DD00, sprites, display modes, raster and badline timing on NTSC and PAL), SID ($D400) voices, envelopes and filter, CIA 1/2 timers, interrupts, NMI and the keyboard matrix, plus 6502/6510 addressing modes, cycle counts and NMOS pitfalls. Use WHENEVER C64 code touches a hardware address, when graphics come out as garbage, the screen is blank, sprites are missing, the SID is silent, an IRQ locks up, or you need a cycle count or a register's bits. Read the reference instead of recalling addresses from memory."
 ---
 
 # C64 hardware reference

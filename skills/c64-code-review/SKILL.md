@@ -1,6 +1,6 @@
 ---
 name: c64-code-review
-description: Review Commodore 64 6502/6510 assembly for hardware and CPU correctness against a fixed checklist - 6502 arithmetic and branching, memory banking and zero page, VIC-II bank/$D018/sprite setup, raster IRQ handling and NTSC/PAL frame budgets, SID and CIA usage, NMI/RESTORE and clean exit. Use after writing or changing C64 assembly, before committing it, or when a C64 program misbehaves in VICE or on real hardware (garbage graphics, blank screen, IRQ lockup, silent SID, crash on exit, wrong speed on NTSC). Works as a review the main agent runs, or as the brief for a subagent if the tool supports them.
+description: "Review Commodore 64 6502/6510 assembly for hardware and CPU correctness against a fixed checklist - 6502 arithmetic and branching, memory banking and zero page, VIC-II bank/$D018/sprite setup, raster IRQ handling and NTSC/PAL frame budgets, SID and CIA usage, NMI/RESTORE and clean exit. Use after writing or changing C64 assembly, before committing it, or when a C64 program misbehaves in VICE or on real hardware (garbage graphics, blank screen, IRQ lockup, silent SID, crash on exit, wrong speed on NTSC). Works as a review the main agent runs, or as the brief for a subagent if the tool supports them."
 ---
 
 # C64 code review

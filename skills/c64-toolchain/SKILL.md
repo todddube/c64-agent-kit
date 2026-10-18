@@ -1,6 +1,6 @@
 ---
 name: c64-toolchain
-description: Build, run, screenshot and measure Commodore 64 programs with KickAssembler and the VICE emulator through one cross-platform script (scripts/c64.py - doctor, build, run, shot, peek). Use whenever you assemble a C64 .asm file, launch or test a .prg in VICE, need to see what a demo renders at a given moment, read C64 memory at an exact emulated time, or set up / diagnose the C64 toolchain (Java, KickAss.jar, x64sc, c1541, petcat). Trigger on "build this", "run it in VICE", "what does it look like after N seconds", "KickAss error", "x64sc", ".prg".
+description: "Build, run, screenshot and measure Commodore 64 programs with KickAssembler and the VICE emulator through one cross-platform script (scripts/c64.py - doctor, build, run, shot, peek, mon). Use whenever you assemble a C64 .asm file, launch or test a .prg in VICE, need to see what a demo renders at a given moment, read C64 memory or run VICE monitor commands at an exact emulated time, or set up / diagnose the C64 toolchain (Java, KickAss.jar, x64sc, c1541, petcat). Trigger on \"build this\", \"run it in VICE\", \"what does it look like after N seconds\", \"KickAss error\", \"x64sc\", \".prg\"."
 ---
 
 # C64 toolchain: KickAssembler + VICE
