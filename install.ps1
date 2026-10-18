@@ -10,6 +10,10 @@
   so `git pull` here updates every install. Junctions need no admin rights and no
   Developer Mode. Use -Copy to copy instead (e.g. to vendor the skills into a repo).
 
+  The 6502-family skills (6502-*) come from the vendor\6502-skills submodule
+  (github.com/sunsided/6502-skills) and are installed too when it is checked out:
+  clone with --recurse-submodules, or run `git submodule update --init`.
+
   Cursor and Copilot read BOTH ~\.claude\skills and ~\.agents\skills. If you use one of
   them alongside Claude Code, installing into both can list each skill twice;
   -Claude alone covers Claude Code + Cursor + Copilot.
@@ -48,8 +52,13 @@ if ($Project) {
 if ($To) { $targets += $To }
 if ($targets.Count -eq 0) { Get-Help $PSCommandPath -Detailed; exit 1 }
 
-$skills = Get-ChildItem (Join-Path $Kit 'skills') -Directory |
+$vendor = Join-Path $Kit 'vendor\6502-skills'
+$skills = @(Join-Path $Kit 'skills'; $vendor) | Where-Object { Test-Path $_ } |
+  ForEach-Object { Get-ChildItem $_ -Directory } |
   Where-Object { Test-Path (Join-Path $_.FullName 'SKILL.md') }
+if (-not (Test-Path (Join-Path $vendor '6502-instruction-set\SKILL.md'))) {
+  Write-Warning "vendor\6502-skills is not checked out; run 'git submodule update --init' for the 6502-* skills"
+}
 
 function Test-Link($path) {
   $item = Get-Item $path -Force -ErrorAction SilentlyContinue

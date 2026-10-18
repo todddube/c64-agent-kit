@@ -15,6 +15,10 @@
 # `git pull` here updates them all. Use --copy on Windows or to vendor the
 # skills into a repository.
 #
+# The 6502-family skills (6502-*) come from the vendor/6502-skills submodule
+# (github.com/sunsided/6502-skills). They are installed too when the submodule is
+# checked out: clone with --recurse-submodules, or run `git submodule update --init`.
+#
 # Cursor and Copilot read BOTH ~/.claude/skills and ~/.agents/skills. If you use one
 # of them alongside Claude Code, installing into both locations can list each skill
 # twice; --claude alone covers Claude Code + Cursor + Copilot.
@@ -23,7 +27,7 @@ set -euo pipefail
 KIT="$(cd "$(dirname "$0")" && pwd)"
 targets=() agent_dirs=() mode=link action=install with_agent=0
 
-usage() { sed -n '2,21p' "$0" | sed 's/^# \{0,1\}//'; exit "${1:-0}"; }
+usage() { sed -n '2,25p' "$0" | sed 's/^# \{0,1\}//'; exit "${1:-0}"; }
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -44,8 +48,12 @@ while [ $# -gt 0 ]; do
 done
 [ ${#targets[@]} -gt 0 ] || usage 1
 
-skills=()
-for s in "$KIT"/skills/*/; do [ -f "$s/SKILL.md" ] && skills+=("$(basename "$s")"); done
+skills=()   # source directories
+for s in "$KIT"/skills/*/ "$KIT"/vendor/6502-skills/*/; do
+  [ -f "$s/SKILL.md" ] && skills+=("${s%/}")
+done
+[ -f "$KIT/vendor/6502-skills/6502-instruction-set/SKILL.md" ] ||
+  echo "note: vendor/6502-skills is not checked out; run 'git submodule update --init' for the 6502-* skills" >&2
 
 place() {   # place SRC DEST
   local src="$1" dest="$2"
@@ -72,11 +80,12 @@ remove() {  # remove DEST OURFILE THEIRFILE - only what this kit installed
 for t in "${targets[@]}"; do
   echo "$action -> $t"
   [ "$action" = install ] && mkdir -p "$t"
-  for s in "${skills[@]}"; do
+  for src in "${skills[@]}"; do
+    s="$(basename "$src")"
     if [ "$action" = uninstall ]; then
-      remove "$t/$s" "$KIT/skills/$s/SKILL.md" "$t/$s/SKILL.md"
+      remove "$t/$s" "$src/SKILL.md" "$t/$s/SKILL.md"
     else
-      place "$KIT/skills/$s" "$t/$s"
+      place "$src" "$t/$s"
     fi
   done
 done

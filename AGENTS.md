@@ -13,6 +13,10 @@ This repo *is* a set of Agent Skills; there is no application code besides
   short and point to these by relative path.
 - A skill refers to another as "the `c64-xyz` skill", never by an absolute path: users
   install them in different places.
+- `vendor/6502-skills/`: git submodule of github.com/sunsided/6502-skills (the `6502-*`
+  skills). The installers pick it up; never edit it here. Send fixes upstream, then bump
+  the submodule (`git submodule update --remote` and commit). Kit skill names must not
+  clash with its names (the smoke test checks).
 - `agents/claude-code/`: optional subagent wrappers. They only point at a skill; the
   content lives in the skill.
 
@@ -28,7 +32,8 @@ This repo *is* a set of Agent Skills; there is no application code besides
 - `c64.py` stays a single stdlib-only file that runs on macOS, Linux and Windows.
 - Agents running in parallel share the machine: never `pkill x64sc`, never a fixed monitor
   port, never `sleep`-poll the emulator.
-- Don't vendor third-party manuals or skills without a license that allows it.
+- Don't copy third-party manuals or skills into this repo without a license that allows
+  it. Reference them (a submodule or a link), as with `vendor/6502-skills`.
 
 ## Before committing
 

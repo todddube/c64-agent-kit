@@ -17,6 +17,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
@@ -47,8 +49,10 @@ jobs:
           ./install.sh --project "$RUNNER_TEMP/proj" --with-agent
           test -f "$RUNNER_TEMP/proj/.agents/skills/c64-toolchain/SKILL.md"
           test -f "$RUNNER_TEMP/proj/.claude/agents/c64-reviewer.md"
+          test -f "$RUNNER_TEMP/proj/.claude/skills/6502-instruction-set/SKILL.md"
           ./install.sh --project "$RUNNER_TEMP/proj" --uninstall
           test ! -e "$RUNNER_TEMP/proj/.agents/skills/c64-toolchain"
+          test ! -e "$RUNNER_TEMP/proj/.agents/skills/6502-instruction-set"
 
       - name: install.ps1 (Windows, junctions)
         if: runner.os == 'Windows'
@@ -59,6 +63,8 @@ jobs:
           ./install.ps1 -Project $p -WithAgent
           if (-not (Test-Path "$p\.agents\skills\c64-toolchain\SKILL.md")) { throw 'skill missing' }
           if (-not (Test-Path "$p\.claude\agents\c64-reviewer.md")) { throw 'agent missing' }
+          if (-not (Test-Path "$p\.agents\skills\6502-instruction-set\SKILL.md")) { throw '6502 skill missing' }
           python "$p\.claude\skills\c64-toolchain\scripts\c64.py" build skills\c64-demo-framework\templates\main.asm --odir "$p\out"
           ./install.ps1 -Project $p -Uninstall
           if (Test-Path "$p\.agents\skills\c64-toolchain") { throw 'uninstall left a skill' }
+          if (Test-Path "$p\.agents\skills\6502-instruction-set") { throw 'uninstall left a 6502 skill' }

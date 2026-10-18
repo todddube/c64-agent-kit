@@ -62,6 +62,20 @@ def test_metadata():
             check(f"{name}: {ref} exists", os.path.exists(os.path.join(KIT, "skills", name, ref)))
 
 
+def test_vendor():
+    """The 6502-* skills from the vendor/6502-skills submodule (not ours to lint)."""
+    vendor = os.path.join(KIT, "vendor", "6502-skills")
+    if not os.path.isfile(os.path.join(vendor, "6502-instruction-set", "SKILL.md")):
+        return skip("6502-* skills", "submodule not checked out: git submodule update --init")
+    names = [n for n in sorted(os.listdir(vendor)) if os.path.isfile(os.path.join(vendor, n, "SKILL.md"))]
+    for name in names:
+        text = open(os.path.join(vendor, name, "SKILL.md"), encoding="utf-8").read()
+        m = re.match(r"---\n(.*?)\n---\n", text, re.S)
+        check(f"{name}: frontmatter names its folder",
+              bool(m) and re.search(rf"^name:\s*{re.escape(name)}\s*$", m.group(1), re.M) is not None)
+        check(f"{name}: no clash with a kit skill", not os.path.exists(os.path.join(KIT, "skills", name)))
+
+
 def test_toolchain(tmp):
     if not (c64.locate("java") and c64.locate("kickass_jar")):
         return skip("build", "java or KickAss.jar not found")
@@ -104,6 +118,7 @@ def test_toolchain(tmp):
 
 def main():
     test_metadata()
+    test_vendor()
     if "--static" not in sys.argv:
         with tempfile.TemporaryDirectory() as tmp:
             test_toolchain(tmp)

@@ -25,6 +25,25 @@ By RetroDubTRVA.
 Plus [`agents/claude-code/c64-reviewer.md`](agents/claude-code/c64-reviewer.md), a Claude
 Code subagent that runs the review in its own context.
 
+### Included: the 6502-family skills by sunsided
+
+The installers also set up the five `6502-*` skills from
+**[sunsided/6502-skills](https://github.com/sunsided/6502-skills)**, included as a git
+submodule in [`vendor/6502-skills`](vendor/6502-skills). They cover the CPU beyond the C64:
+
+| Skill | What it adds |
+|---|---|
+| `6502-instruction-set` | 6502, 65C02 and 65816 opcodes, addressing modes, flags and cycle counts |
+| `6502-memory-map` | memory maps, I/O and ROM entry points for the Apple II, Commodore 64 and Atari 400/800/XL/XE |
+| `6502-merlin-assembler` | reading and writing Merlin assembler source (Apple II/IIgs, and Merlin 64/128 on Commodore) |
+| `6502-sweet16` | Wozniak's SWEET16 16-bit interpreter |
+| `6502-to-rust` | porting 6502 assembly to Rust |
+
+They are sunsided's work, not part of this kit, and are not covered by this kit's license.
+The submodule points at their repository instead of copying it, so credit and updates stay
+with them. For C64 work the `c64-*` skills come first; the `6502-*` ones help with 65C02/65816
+code and other 6502 machines.
+
 **NTSC and PAL are both first-class.** Everything budgets against NTSC's 17095-cycle frame
 unless the project says it is PAL-only, because code that fits only PAL's 19656 cycles is
 broken for half the world's machines.
@@ -62,7 +81,7 @@ brew install exomizer                      # optional
 #    Regenerator 2000 (optional): download from its GitHub releases into /Applications/regenerator
 
 # 2. Skills (symlinks: `git pull` updates them)
-git clone https://github.com/todddube/c64-agent-kit ~/c64-agent-kit
+git clone --recurse-submodules https://github.com/todddube/c64-agent-kit ~/c64-agent-kit
 ~/c64-agent-kit/install.sh --claude --with-agent     # Claude Code
 ~/c64-agent-kit/install.sh --agents                  # Codex, Cursor, Copilot, Gemini CLI, opencode
 
@@ -90,7 +109,7 @@ Expand-Archive KickAssembler.zip C:\KickAssembler
 #    Regenerator 2000 / Exomizer (optional): unzip their Windows releases, e.g. to C:\Tools
 
 # 2. Skills (directory junctions: no admin rights or Developer Mode needed)
-git clone https://github.com/todddube/c64-agent-kit $HOME\c64-agent-kit
+git clone --recurse-submodules https://github.com/todddube/c64-agent-kit $HOME\c64-agent-kit
 & $HOME\c64-agent-kit\install.ps1 -Claude -WithAgent   # Claude Code
 & $HOME\c64-agent-kit\install.ps1 -Agents              # Codex, Cursor, Copilot, Gemini CLI, opencode
 
@@ -115,6 +134,10 @@ py -3 $HOME\c64-agent-kit\skills\c64-toolchain\scripts\c64.py doctor --save
 the VICE source tarball), unzip KickAssembler to `~/KickAssembler`, then use `install.sh`
 exactly as on macOS.
 
+Already cloned without `--recurse-submodules`? Run `git submodule update --init` in the
+checkout, then the installer again. To update everything later:
+`git pull --recurse-submodules` (or `git submodule update --remote` for sunsided's latest).
+
 ## Other ways to install the skills
 
 ```sh
@@ -123,6 +146,8 @@ gh skill install todddube/c64-agent-kit   # GitHub CLI
 ./install.sh --project ~/code/mydemo      # one repo only (.claude/skills + .agents/skills)
 .\install.ps1 -Project C:\code\mydemo     # same on Windows
 ```
+`npx skills` and `gh skill` install the `c64-*` skills. Add the 6502 skills the same way
+from their own repository: `npx skills add sunsided/6502-skills`.
 
 Where each agent looks:
 
@@ -148,12 +173,6 @@ Ask your agent things like:
 - "Review `intro.asm` for hardware bugs, STATIC mode."
 - "Disassemble `oldgame.prg` into KickAssembler source that rebuilds identically."
 
-## Related
-
-- [sunsided/6502-skills](https://github.com/sunsided/6502-skills): CPU-level skills for the
-  wider 6502 family (65C02/65816 opcodes, Apple II and Atari memory maps, Merlin, SWEET16,
-  porting to Rust). They complement these skills.
-
 ## Development
 
 ```sh
@@ -167,5 +186,7 @@ See [AGENTS.md](AGENTS.md) for how the skills are written.
 
 ## License
 
-MIT. See [LICENSE](LICENSE). KickAssembler, VICE and Regenerator 2000 are separate
+MIT. See [LICENSE](LICENSE). This covers the kit's own files, not
+`vendor/6502-skills`, which belongs to its author
+([sunsided/6502-skills](https://github.com/sunsided/6502-skills)). KickAssembler, VICE and Regenerator 2000 are separate
 projects under their own licenses; none of their code or manuals is included here.

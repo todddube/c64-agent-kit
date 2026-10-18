@@ -1,0 +1,3 @@
+[submodule "vendor/6502-skills"]
+	path = vendor/6502-skills
+	url = https://github.com/sunsided/6502-skills
