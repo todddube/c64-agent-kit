@@ -1,0 +1,64 @@
+# Builds the demo template with KickAssembler and checks the installers on
+# Windows, macOS and Linux. VICE is not run in CI (it needs a display and, on
+# Linux, the non-free ROMs); tests/smoke.py skips those checks when x64sc is
+# missing. Run the full suite locally with VICE installed.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Fetch KickAssembler
+        shell: bash
+        run: |
+          curl -sSL -o ka.zip http://theweb.dk/KickAssembler/KickAssembler.zip
+          mkdir -p "$RUNNER_TEMP/KickAssembler"
+          unzip -q ka.zip -d "$RUNNER_TEMP/KickAssembler"
+          echo "C64_KICKASS_JAR=$RUNNER_TEMP/KickAssembler/KickAss.jar" >> "$GITHUB_ENV"
+
+      - name: doctor
+        shell: bash
+        run: python skills/c64-toolchain/scripts/c64.py doctor || true   # VICE absent: exit 1 expected
+
+      - name: Smoke test (metadata + build)
+        run: python tests/smoke.py
+
+      - name: install.sh (macOS / Linux)
+        if: runner.os != 'Windows'
+        run: |
+          mkdir -p "$RUNNER_TEMP/proj"
+          ./install.sh --project "$RUNNER_TEMP/proj" --with-agent
+          test -f "$RUNNER_TEMP/proj/.agents/skills/c64-toolchain/SKILL.md"
+          test -f "$RUNNER_TEMP/proj/.claude/agents/c64-reviewer.md"
+          ./install.sh --project "$RUNNER_TEMP/proj" --uninstall
+          test ! -e "$RUNNER_TEMP/proj/.agents/skills/c64-toolchain"
+
+      - name: install.ps1 (Windows, junctions)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $p = Join-Path $env:RUNNER_TEMP 'proj'
+          New-Item -ItemType Directory -Force $p | Out-Null
+          ./install.ps1 -Project $p -WithAgent
+          if (-not (Test-Path "$p\.agents\skills\c64-toolchain\SKILL.md")) { throw 'skill missing' }
+          if (-not (Test-Path "$p\.claude\agents\c64-reviewer.md")) { throw 'agent missing' }
+          python "$p\.claude\skills\c64-toolchain\scripts\c64.py" build skills\c64-demo-framework\templates\main.asm --odir "$p\out"
+          ./install.ps1 -Project $p -Uninstall
+          if (Test-Path "$p\.agents\skills\c64-toolchain") { throw 'uninstall left a skill' }
