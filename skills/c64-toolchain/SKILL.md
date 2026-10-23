@@ -33,6 +33,11 @@ C64PY build main.asm --odir /tmp/scratch        # build somewhere else
 C64PY build main.asm --vicesymbols              # also main.vs, labels for the VICE monitor
 C64PY build main.asm -- -showmem                # anything after -- goes to KickAssembler
 ```
+- **The .prg is named after the source file**: `main.asm` -> `bin/main.prg`,
+  `scroller.asm` -> `bin/scroller.prg`. That is KickAssembler's default and the only
+  naming convention; never pass `-o` to rename it, and never put `-o` in `KickAss.cfg`
+  (it would force one fixed filename on every build on the machine). A project that
+  wants a different name renames the source.
 - A clean build prints **one line**: `Writing prg file: main.prg` (plus any deliberate
   `.print` output in the source). Anything else is an error or warning. The full,
   unfiltered output is always in `<odir>/buildlog.txt`. Exit status is non-zero on failure.

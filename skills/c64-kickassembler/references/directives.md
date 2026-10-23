@@ -86,7 +86,8 @@ Preprocessor (separate from the above, `#` prefix): `#define`, `#undef`, `#if`, 
 ```bash
 java -jar KickAss.jar source.asm -odir bin
 ```
-Useful options: `-o <file>` output name, `-odir <dir>` output directory,
+The output is named after the source: `source.asm` -> `bin/source.prg`. That default is
+the convention; `-o <file>` exists but is not used. Useful options: `-odir <dir>` output directory,
 `-symbolfile` write a VICE `.sym`, `-debugdump`/`-debug` write `.dbg`, `-showmem` print the
 memory map, `-bytedump` write `ByteDump.txt`, `-define SYMBOL`, `-libdir <dir>`,
 `-vicesymbols`, `-afo`/`-asminfo` assembler info for IDEs.
@@ -96,7 +97,8 @@ options are applied after it. Its options take their value after a **space** (`-
 `-libdir=.` is parsed as an input filename and the build fails with
 `Inputfile '-libdir=.' doesn't exist` or `Already have an inputfile`. There is no
 `-output-dir`; it is `-odir`. Keep debug outputs (`-showmem`, `-symbolfile`, `-vicesymbols`,
-`-debug`, `-bytedump`) for the single build that needs them rather than the cfg.
+`-debug`, `-bytedump`) for the single build that needs them rather than the cfg, and never
+put `-o` there: it would give every build on the machine the same output filename.
 
 ## Gotchas
 
